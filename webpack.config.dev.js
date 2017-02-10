@@ -3,11 +3,16 @@ import HtmlWebpackPlugin from 'html-webpack-plugin';
 import autoprefixer from 'autoprefixer';
 import path from 'path';
 
-require('dotenv').config({path: './dev.env'});
+require('dotenv').config({path: './.dev.env'});
+
+const srcBase = path.join(__dirname, '/src');
 
 export default {
   resolve: {
-    extensions: ['', '.js', '.jsx', '.json']
+    extensions: ['', '.js', '.jsx', '.json'],
+    alias: {
+      config: `${srcBase}/config/dev.js`,
+    }
   },
   debug: true,
   devtool: 'eval-source-map', // more info:https://webpack.github.io/docs/build-performance.html#sourcemaps and https://webpack.github.io/docs/configuration.html#devtool
@@ -27,8 +32,8 @@ export default {
   plugins: [
     new webpack.DefinePlugin({
       'process.env.NODE_ENV': JSON.stringify('development'), // Tells React to build in either dev or prod modes. https://facebook.github.io/react/downloads.html (See bottom)
-      'process.env.INSTAGRAM_CLIENT_ID': JSON.stringify('process.env.process.env.INSTAGRAM_CLIENT_ID'),
-      'process.env.INSTAGRAM_REDIRECT_URL': JSON.stringify('process.env.process.env.INSTAGRAM_REDIRECT_URL'),
+      'process.env.INSTAGRAM_CLIENT_ID': JSON.stringify(process.env.INSTAGRAM_CLIENT_ID),
+      'process.env.INSTAGRAM_REDIRECT_URL': JSON.stringify(process.env.INSTAGRAM_REDIRECT_URL),
       __DEV__: true
     }),
     new webpack.HotModuleReplacementPlugin(),

@@ -7,18 +7,23 @@ import HtmlWebpackPlugin from 'html-webpack-plugin';
 import autoprefixer from 'autoprefixer';
 import path from 'path';
 
-require('dotenv').config({path: './dev.env'});
+require('dotenv').config({path: './.dev.env'});
+
+const srcBase = path.join(__dirname, '/src');
 
 const GLOBALS = {
   'process.env.NODE_ENV': JSON.stringify('production'),
-  'process.env.INSTAGRAM_CLIENT_ID': JSON.stringify('process.env.process.env.INSTAGRAM_CLIENT_ID'),
-  'process.env.INSTAGRAM_REDIRECT_URL': JSON.stringify('process.env.process.env.INSTAGRAM_REDIRECT_URL'),
+  'process.env.INSTAGRAM_CLIENT_ID': JSON.stringify(process.env.INSTAGRAM_CLIENT_ID),
+  'process.env.INSTAGRAM_REDIRECT_URL': JSON.stringify(process.env.INSTAGRAM_REDIRECT_URL),
   __DEV__: false
 };
 
 export default {
   resolve: {
-    extensions: ['', '.js', '.jsx', '.json']
+    extensions: ['', '.js', '.jsx', '.json'],
+    alias: {
+      config: `${srcBase}/config/prod.js`,
+    }
   },
   debug: true,
   devtool: 'source-map', // more info:https://webpack.github.io/docs/build-performance.html#sourcemaps and https://webpack.github.io/docs/configuration.html#devtool
