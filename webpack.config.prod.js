@@ -7,8 +7,12 @@ import HtmlWebpackPlugin from 'html-webpack-plugin';
 import autoprefixer from 'autoprefixer';
 import path from 'path';
 
+require('dotenv').config({path: './dev.env'});
+
 const GLOBALS = {
   'process.env.NODE_ENV': JSON.stringify('production'),
+  'process.env.INSTAGRAM_CLIENT_ID': JSON.stringify('process.env.process.env.INSTAGRAM_CLIENT_ID'),
+  'process.env.INSTAGRAM_REDIRECT_URL': JSON.stringify('process.env.process.env.INSTAGRAM_REDIRECT_URL'),
   __DEV__: false
 };
 
