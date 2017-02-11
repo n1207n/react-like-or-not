@@ -2,11 +2,9 @@
 
 import axios from 'axios';
 
-import { FETCH_IMAGE_LIST } from './const';
-
 import { requestImageList, loadImageList, loadImageListError } from './index';
 
-function action(url: string, access_token: string) {
+export default function action(url: string, access_token: string) {
   return function(dispatch: Function) {
     dispatch(requestImageList());
 
@@ -25,5 +23,3 @@ function action(url: string, access_token: string) {
     });
   };
 }
-
-module.exports = action;

@@ -7,7 +7,7 @@
 
 import type {InstagramMediaType} from '../sources/InstagramMediaType';
 
-import {REQUEST_IMAGE_LIST, LOAD_IMAGE_LIST, LOAD_IMAGE_LIST_ERROR, FETCH_IMAGE_LIST} from '../actions/const';
+import {REQUEST_IMAGE_LIST, LOAD_IMAGE_LIST, LOAD_IMAGE_LIST_ERROR} from '../actions/const';
 
 type APIReducerStateType = {accessToken: string, data: Array<InstagramMediaType>, loading: boolean, error: boolean, errorResponse: Object};
 
@@ -19,7 +19,7 @@ const initialState: APIReducerStateType = {
   errorResponse: {},
 };
 
-function reducer(state: APIReducerStateType = initialState, action: Object) {
+export default function reducer(state: APIReducerStateType = initialState, action: Object) {
   /* Keep the reducer clean - do not mutate the original state. */
   // const nextState = Object.assign({}, state);
 
@@ -48,5 +48,3 @@ function reducer(state: APIReducerStateType = initialState, action: Object) {
     }
   }
 }
-
-module.exports = reducer;
