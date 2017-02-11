@@ -1,9 +1,7 @@
 import React, { PropTypes } from 'react';
 import { Link, IndexLink } from 'react-router';
 
-let config = require('config');
-
-console.log(config);
+import InstagramAPI from '../sources/InstagramAPI';
 
 // This is a class-based component because the current
 // version of hot reloading won't hot reload a stateless
