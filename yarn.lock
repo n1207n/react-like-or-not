@@ -2156,12 +2156,6 @@ domutils@1.5.1, domutils@^1.5.1:
     dom-serializer "0"
     domelementtype "1"
 
-dotenv-webpack@^1.4.1:
-  version "1.4.1"
-  resolved "https://registry.yarnpkg.com/dotenv-webpack/-/dotenv-webpack-1.4.1.tgz#79758376b8c26be82035da4c195516b55477f9e3"
-  dependencies:
-    dotenv "^4.0.0"
-
 dotenv@^4.0.0:
   version "4.0.0"
   resolved "https://registry.yarnpkg.com/dotenv/-/dotenv-4.0.0.tgz#864ef1379aced55ce6f95debecdce179f7a0cd1d"
@@ -5563,6 +5557,10 @@ react-redux@5.0.1:
     lodash "^4.2.0"
     lodash-es "^4.2.0"
     loose-envify "^1.1.0"
+
+react-router-bootstrap@^0.23.1:
+  version "0.23.1"
+  resolved "https://registry.yarnpkg.com/react-router-bootstrap/-/react-router-bootstrap-0.23.1.tgz#a1e0b82f49d25a6083c72202ad16aaa64bba0e0c"
 
 react-router-redux@4.0.7:
   version "4.0.7"
