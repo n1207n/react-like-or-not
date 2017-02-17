@@ -1,6 +1,12 @@
 import React from 'react';
 import {Link} from 'react-router';
 
+import config from 'config';
+
+import FontIcon from 'material-ui/FontIcon';
+
+import InstagramSignIn from './InstagramSignIn';
+
 class HomePage extends React.Component {
   constructor(props) {
     super(props);
@@ -8,14 +14,12 @@ class HomePage extends React.Component {
 
   render() {
     return (
-      <div>
-        <h1>React Slingshot</h1>
-
-        <h2>Get Started</h2>
-        <ol>
-          <li>Review the <Link to="fuel-savings">demo app</Link></li>
-          <li>Remove the demo and start coding: npm run remove-demo</li>
-        </ol>
+      <div className="flex-container flex-center login-container">
+        <FontIcon className="fa fa-instagram" style={{
+          "fontSize": "5em",
+        }} />
+        <h2>Please continue to Instagram login page first ;)</h2>
+        <InstagramSignIn oAuthUrl={config.INSTAGRAM_OAUTH_URL} />
       </div>
     );
   }
