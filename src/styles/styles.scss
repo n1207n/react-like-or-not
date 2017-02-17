@@ -6,3 +6,17 @@ body {
   font-smoothing: antialiased;
   margin: 0 auto;
 }
+
+.flex-container {
+  display: flex;
+  flex-direction: column;
+}
+
+.flex-center {
+  align-items: center;
+  text-align: center;
+}
+
+.login-container {
+  margin-top: 60px;
+}
