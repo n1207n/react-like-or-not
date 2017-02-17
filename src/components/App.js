@@ -1,34 +1,60 @@
 import React, { PropTypes } from 'react';
-import { Navbar, Nav, NavItem } from 'react-bootstrap';
-import { IndexLink } from 'react-router';
-import { IndexLinkContainer, LinkContainer } from 'react-router-bootstrap';
+import { IndexLink, Link } from 'react-router';
+
+import AppBar from 'material-ui/AppBar';
+import Drawer from 'material-ui/Drawer';
+import MenuItem from 'material-ui/MenuItem';
+import IconButton from 'material-ui/IconButton';
+import InfoSVGIcon from 'material-ui/svg-icons/action/info';
+import HomeSVGIcon from 'material-ui/svg-icons/action/home';
 
 // This is a class-based component because the current
 // version of hot reloading won't hot reload a stateless
 // component at the top-level.
 class App extends React.Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      isDrawerOpened: false,
+    };
+
+    this.toggleDrawer = this.toggleDrawer.bind(this);
+  }
+
+  toggleDrawer(evt) {
+    this.setState({
+      isDrawerOpened: !this.state.isDrawerOpened,
+    });
+  }
+
   render() {
     return (
       <div className="container">
-        <Navbar inverse collapseOnSelect>
-          <Navbar.Header>
-            <Navbar.Brand>
-              <IndexLink to="/">
-                React like-or-not
-              </IndexLink>
-            </Navbar.Brand>
-            <Navbar.Toggle />
-          </Navbar.Header>
-          <Navbar.Collapse>
-            <Nav>
-              <LinkContainer to="/about">
-                <NavItem eventKey={2}>
-                  About
-                </NavItem>
-              </LinkContainer>
-            </Nav>
-          </Navbar.Collapse>
-        </Navbar>
+        <AppBar title="React-like-or-not" iconClassNameRight="muidocs-icon-navigation-expand-more"
+        onLeftIconButtonTouchTap={this.toggleDrawer}
+        titleStyle={{
+          cursor: 'pointer',
+        }}
+        onTitleTouchTap={() => this.context.router.push('/')}/>
+
+        <Drawer
+          docked={false}
+          width={240}
+          open={this.state.isDrawerOpened}
+          onRequestChange={(open) => this.setState({isDrawerOpened: open})}>
+          <h2 style={{
+            "textAlign": "center",
+          }}>React-like-or-not</h2>
+          <MenuItem
+            primaryText="Home"
+            leftIcon={<HomeSVGIcon />}
+            onTouchTap={() => this.context.router.push('/')}/>
+          <MenuItem
+            primaryText="About"
+            leftIcon={<InfoSVGIcon />}
+            onTouchTap={() => this.context.router.push('/about')}/>
+        </Drawer>
 
         <div className="content-container">
           {this.props.children}
@@ -40,6 +66,10 @@ class App extends React.Component {
 
 App.propTypes = {
   children: PropTypes.element
+};
+
+App.contextTypes = {
+  router: React.PropTypes.object.isRequired,
 };
 
 export default App;
