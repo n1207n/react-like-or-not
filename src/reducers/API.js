@@ -7,12 +7,12 @@
 
 import type {InstagramMediaType} from '../sources/InstagramMediaType';
 
-import {REQUEST_IMAGE_LIST, LOAD_IMAGE_LIST, LOAD_IMAGE_LIST_ERROR} from '../actions/const';
+import {REQUEST_IMAGE_LIST, LOAD_IMAGE_LIST, LOAD_IMAGE_LIST_ERROR, SAVE_AUTH_DATA} from '../actions/const';
 
-type APIReducerStateType = {accessToken: string, data: Array<InstagramMediaType>, loading: boolean, error: boolean, errorResponse: Object};
+type APIReducerStateType = {isAuthenticated: boolean, data: Array<InstagramMediaType>, loading: boolean, error: boolean, errorResponse: Object};
 
 const initialState: APIReducerStateType = {
-  accessToken: '',
+  isAuthenticated: localStorage.getItem('token') ? true : false,
   data: [],
   loading: false,
   error: false,
@@ -40,6 +40,14 @@ export default function reducer(state: APIReducerStateType = initialState, actio
 
     case LOAD_IMAGE_LIST: {
       return Object.assign({}, state, {isLoading: false, error: false, data: action.data});
+    }
+
+    case SAVE_AUTH_DATA: {
+      localStorage.setItem('token', action.token);
+
+      return Object.assign({}, state, {
+        isAuthenticated: true,
+      });
     }
 
     default: {

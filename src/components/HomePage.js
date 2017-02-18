@@ -1,7 +1,7 @@
 import React from 'react';
 import {Link} from 'react-router';
 
-import config from 'config';
+import InstagramAPI from '../sources/InstagramAPI';
 
 import FontIcon from 'material-ui/FontIcon';
 
@@ -19,7 +19,7 @@ class HomePage extends React.Component {
           "fontSize": "5em",
         }} />
         <h2>Please continue to Instagram login page first ;)</h2>
-        <InstagramSignIn oAuthUrl={config.INSTAGRAM_OAUTH_URL} />
+        <InstagramSignIn oAuthUrl={InstagramAPI.apiAuthorizationUrl} />
       </div>
     );
   }
