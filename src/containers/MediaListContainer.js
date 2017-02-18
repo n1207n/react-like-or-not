@@ -15,7 +15,7 @@ const mapStateToProps = (state, ownProps) => {
 
 const mapDispatchToProps = (dispatch) => {
   return bindActionCreators({saveAuthData, fetchImageList}, dispatch);
-}
+};
 
 export default connect(
   mapStateToProps,

@@ -4,7 +4,7 @@ import jsonp from 'jsonp';
 
 import { requestImageList, loadImageList, loadImageListError } from './index';
 
-export default function action(url: string, access_token: string, callback: Function) {
+export default function action(url: string, access_token: string) {
   return function(dispatch: Function) {
     dispatch(requestImageList());
 

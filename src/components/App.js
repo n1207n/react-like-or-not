@@ -1,10 +1,8 @@
 import React, { PropTypes } from 'react';
-import { IndexLink, Link } from 'react-router';
 
 import AppBar from 'material-ui/AppBar';
 import Drawer from 'material-ui/Drawer';
 import MenuItem from 'material-ui/MenuItem';
-import IconButton from 'material-ui/IconButton';
 import InfoSVGIcon from 'material-ui/svg-icons/action/info';
 import HomeSVGIcon from 'material-ui/svg-icons/action/home';
 
@@ -22,7 +20,7 @@ class App extends React.Component {
     this.toggleDrawer = this.toggleDrawer.bind(this);
   }
 
-  toggleDrawer(evt) {
+  toggleDrawer() {
     this.setState({
       isDrawerOpened: !this.state.isDrawerOpened,
     });
