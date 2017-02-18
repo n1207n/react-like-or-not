@@ -53,13 +53,13 @@ class App extends React.Component {
             primaryText="About"
             leftIcon={<InfoSVGIcon />}
             onTouchTap={() => this.context.router.push('/about')}/>
-            <MenuItem
-              primaryText="Media List"
-              leftIcon={<ListSVGIcon />}
-              onTouchTap={() => {
-                const accessToken = localStorage.getItem('token');
-                this.context.router.push(`/list/#access_token=${accessToken}`);
-              }}/>
+          <MenuItem
+            primaryText="Media List"
+            leftIcon={<ListSVGIcon />}
+            onTouchTap={() => {
+              const accessToken = localStorage.getItem('token');
+              this.context.router.push(`/list/#access_token=${accessToken}`);
+            }}/>
         </Drawer>
 
         <div className="content-container">

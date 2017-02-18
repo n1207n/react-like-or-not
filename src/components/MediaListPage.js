@@ -39,7 +39,6 @@ export default class MediaListPage extends React.Component {
         "justifyContent": "space-around",
       }}>
         <GridList
-          cellheight={180}
           cols={3}
           style={{
             "width": "500px",

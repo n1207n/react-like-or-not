@@ -45,8 +45,10 @@ export default function reducer(state: APIReducerStateType = initialState, actio
     case SAVE_AUTH_DATA: {
       localStorage.setItem('token', action.token);
 
+      const isAuthenticated = action.token ? true : false;
+
       return Object.assign({}, state, {
-        isAuthenticated: true,
+        isAuthenticated,
       });
     }
 

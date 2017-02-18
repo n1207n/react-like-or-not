@@ -1,10 +1,10 @@
 import React from 'react';
 
-import {oAuthUrl} from '../sources/InstagramAPI';
-
 import store from '../store/configureStore';
 
 import FontIcon from 'material-ui/FontIcon';
+
+import {oAuthUrl} from '../sources/InstagramAPI';
 
 import InstagramSignIn from './InstagramSignIn';
 
