@@ -55,7 +55,15 @@ export default class MediaListPage extends React.Component {
           }}>
             {mediaList.map(media => {
               return <GridTile key={media.id}>
-                <img src={media.images.standard_resolution.url} />
+                {media.type === "image" ?
+                  <img src={media.images.standard_resolution.url} /> :
+                  <video
+                    autoPlay
+                    loop
+                    muted
+                    width={180}
+                    height={180}
+                    src={media.videos.low_resolution.url} />}
               </GridTile>
             })}
         </GridList>
