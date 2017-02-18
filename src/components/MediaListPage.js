@@ -1,17 +1,18 @@
 import React from 'react';
 
-import store from '../index';
-import InstagramAPI from '../sources/InstagramAPI';
+import {getRecentMediaUrl} from '../sources/InstagramAPI';
 
 export default class MediaListPage extends React.Component {
   constructor(props) {
     super(props);
 
     this.checkAuthentication = this.checkAuthentication.bind(this);
+    this.fetchMediaData = this.fetchMediaData.bind(this);
   }
 
   componentDidMount() {
     this.checkAuthentication();
+    this.fetchMediaData();
   }
 
   checkAuthentication() {
@@ -20,6 +21,10 @@ export default class MediaListPage extends React.Component {
     if (this.props.accessHash === '') {
       this.context.router.push('/');
     }
+  }
+
+  fetchMediaData() {
+    this.props.fetchImageList(getRecentMediaUrl, this.props.accessHash);
   }
 
   render() {
@@ -35,6 +40,7 @@ export default class MediaListPage extends React.Component {
 
 MediaListPage.propTypes = {
   saveAuthData: React.PropTypes.func.isRequired,
+  fetchImageList: React.PropTypes.func.isRequired,
   accessHash: React.PropTypes.string.isRequired,
 };
 
