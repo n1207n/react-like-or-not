@@ -21,7 +21,8 @@ class HomePage extends React.Component {
 
   checkAuthentication() {
     if (store.getState().API.isAuthenticated) {
-      this.context.router.push('/list');
+      const accessToken = localStorage.getItem('token');
+      this.context.router.push(`/list/#access_token=${accessToken}`);
     }
   }
 

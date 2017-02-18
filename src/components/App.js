@@ -56,7 +56,10 @@ class App extends React.Component {
             <MenuItem
               primaryText="Media List"
               leftIcon={<ListSVGIcon />}
-              onTouchTap={() => this.context.router.push('/list')}/>
+              onTouchTap={() => {
+                const accessToken = localStorage.getItem('token');
+                this.context.router.push(`/list/#access_token=${accessToken}`);
+              }}/>
         </Drawer>
 
         <div className="content-container">

@@ -26,15 +26,7 @@ export default class MediaListPage extends React.Component {
   }
 
   fetchMediaData() {
-    let accessHash = this.props.accessHash;
-
-    if (this.props.mediaList.length === 0) {
-      if (accessHash === '' && this.props.isAuthenticated) {
-        accessHash = localStorage.getItem('token');
-      }
-
-      this.props.fetchImageList(getRecentMediaUrl, accessHash);
-    }
+    this.props.fetchImageList(getRecentMediaUrl, this.props.accessHash);
   }
 
   render() {
@@ -54,17 +46,19 @@ export default class MediaListPage extends React.Component {
             "overflowY": "auto",
           }}>
             {mediaList.map(media => {
-              return <GridTile key={media.id}>
-                {media.type === "image" ?
-                  <img src={media.images.standard_resolution.url} /> :
-                  <video
-                    autoPlay
-                    loop
-                    muted
-                    width={180}
-                    height={180}
-                    src={media.videos.low_resolution.url} />}
-              </GridTile>
+              return (
+                <GridTile key={media.id}>
+                  {media.type === "image" ?
+                    <img src={media.images.standard_resolution.url} /> :
+                    <video
+                      autoPlay
+                      loop
+                      muted
+                      width={180}
+                      height={180}
+                      src={media.videos.low_resolution.url} />}
+                </GridTile>
+              );
             })}
         </GridList>
       </div>
@@ -74,6 +68,7 @@ export default class MediaListPage extends React.Component {
 
 MediaListPage.propTypes = {
   saveAuthData: React.PropTypes.func.isRequired,
+  isAuthenticated: React.PropTypes.bool.isRequired,
   mediaList: React.PropTypes.array.isRequired,
   fetchImageList: React.PropTypes.func.isRequired,
   accessHash: React.PropTypes.string.isRequired,
