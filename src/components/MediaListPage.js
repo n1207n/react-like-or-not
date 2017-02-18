@@ -20,7 +20,7 @@ export default class MediaListPage extends React.Component {
   checkAuthentication() {
     this.props.saveAuthData(this.props.accessHash);
 
-    if (this.props.accessHash === '') {
+    if (!this.props.isAuthenticated) {
       this.context.router.push('/');
     }
   }

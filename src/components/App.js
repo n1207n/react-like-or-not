@@ -5,6 +5,7 @@ import Drawer from 'material-ui/Drawer';
 import MenuItem from 'material-ui/MenuItem';
 import InfoSVGIcon from 'material-ui/svg-icons/action/info';
 import HomeSVGIcon from 'material-ui/svg-icons/action/home';
+import ListSVGIcon from 'material-ui/svg-icons/action/list';
 
 // This is a class-based component because the current
 // version of hot reloading won't hot reload a stateless
@@ -52,6 +53,10 @@ class App extends React.Component {
             primaryText="About"
             leftIcon={<InfoSVGIcon />}
             onTouchTap={() => this.context.router.push('/about')}/>
+            <MenuItem
+              primaryText="Media List"
+              leftIcon={<ListSVGIcon />}
+              onTouchTap={() => this.context.router.push('/list')}/>
         </Drawer>
 
         <div className="content-container">
