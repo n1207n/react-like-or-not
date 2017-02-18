@@ -1,5 +1,7 @@
 import React from 'react';
 
+import {GridList, GridTile} from 'material-ui/GridList';
+
 import {getRecentMediaUrl} from '../sources/InstagramAPI';
 
 export default class MediaListPage extends React.Component {
@@ -28,11 +30,27 @@ export default class MediaListPage extends React.Component {
   }
 
   render() {
+    const {mediaList} = this.props;
+
     return (
-      <div className="flex-container" style={{
-        "marginLeft": "24px",
+      <div className="flex-container flex-center" style={{
+        "margin": "12px",
+        "flexWrap": "wrap",
+        "justifyContent": "space-around",
       }}>
-        <h1>Eyyy authenticated</h1>
+        <GridList
+          cellheight={180}
+          cols={3}
+          style={{
+            "width": "500px",
+            "overflowY": "auto",
+          }}>
+            {mediaList.map(media => {
+              return <GridTile key={media.id}>
+                <img src={media.images.standard_resolution.url} />
+              </GridTile>
+            })}
+        </GridList>
       </div>
     );
   }
@@ -40,6 +58,7 @@ export default class MediaListPage extends React.Component {
 
 MediaListPage.propTypes = {
   saveAuthData: React.PropTypes.func.isRequired,
+  mediaList: React.PropTypes.array.isRequired,
   fetchImageList: React.PropTypes.func.isRequired,
   accessHash: React.PropTypes.string.isRequired,
 };
