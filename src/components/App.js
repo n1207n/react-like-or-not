@@ -46,7 +46,7 @@ class App extends React.Component {
             "textAlign": "center",
           }}>React-like-or-not</h2>
           <MenuItem
-            primaryText="Home"
+            primaryText="Login page"
             leftIcon={<HomeSVGIcon />}
             onTouchTap={() => this.context.router.push('/')}/>
           <MenuItem

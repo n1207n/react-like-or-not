@@ -26,7 +26,15 @@ export default class MediaListPage extends React.Component {
   }
 
   fetchMediaData() {
-    this.props.fetchImageList(getRecentMediaUrl, this.props.accessHash);
+    let accessHash = this.props.accessHash;
+
+    if (this.props.mediaList.length === 0) {
+      if (accessHash === '' && this.props.isAuthenticated) {
+        accessHash = localStorage.getItem('token');
+      }
+
+      this.props.fetchImageList(getRecentMediaUrl, accessHash);
+    }
   }
 
   render() {
