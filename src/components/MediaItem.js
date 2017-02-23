@@ -1,8 +1,8 @@
 import React from 'react';
 
 const defaultProps = {
-  videoWidth: 180,
-  videoHeight: 180,
+  width: 200,
+  height: 200,
   videoAutoPlay: true,
   videoLoop: true,
   videoMuted: true,
@@ -23,13 +23,16 @@ const MediaItem = ({mediaType, mediaSrcUrl, ...props}) => {
  return (
    <div style={styles}>
      {mediaType === "image" ?
-       <img src={mediaSrcUrl} /> :
+       <img
+         src={mediaSrcUrl}
+         width={props.width}
+         height={props.height} /> :
        <video
          autoPlay={props.videoAutoPlay}
          loop={props.videoLoop}
          muted={props.videoMuted}
-         width={props.videoWidth}
-         height={props.videoHeight}
+         width={props.width}
+         height={props.height}
          src={mediaSrcUrl} />}
    </div>
  );
@@ -40,8 +43,8 @@ export default MediaItem;
 MediaItem.propTypes = {
   mediaType: React.PropTypes.string.isRequired,
   mediaSrcUrl: React.PropTypes.string.isRequired,
-  videoWidth: React.PropTypes.number,
-  videoHeight: React.PropTypes.number,
+  width: React.PropTypes.number,
+  height: React.PropTypes.number,
   videoAutoPlay: React.PropTypes.bool,
   videoLoop: React.PropTypes.bool,
   videoMuted: React.PropTypes.bool,
