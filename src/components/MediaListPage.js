@@ -3,6 +3,8 @@ import React from 'react';
 import Dialog from 'material-ui/Dialog';
 import {GridList, GridTile} from 'material-ui/GridList';
 import FlatButton from 'material-ui/FlatButton';
+import IconButton from 'material-ui/IconButton';
+import StarBorder from 'material-ui/svg-icons/toggle/star-border';
 import ReactMapboxGl, { Layer, Feature } from "react-mapbox-gl";
 
 import config from 'config';
@@ -23,6 +25,7 @@ export default class MediaListPage extends React.Component {
     this.fetchMediaData = this.fetchMediaData.bind(this);
     this.handleOpenDialog = this.handleOpenDialog.bind(this);
     this.handleCloseDialog = this.handleCloseDialog.bind(this);
+    this.handleFavorite = this.handleFavorite.bind(this);
   }
 
   componentDidMount() {
@@ -42,7 +45,11 @@ export default class MediaListPage extends React.Component {
     this.props.fetchImageList(getRecentMediaUrl, this.props.accessHash);
   }
 
-  handleOpenDialog(media) {
+  handleFavorite(media, e) {
+    e.stopPropagation();
+  }
+
+  handleOpenDialog(media, e) {
     this.setState({
       mediaDialogIsOpened: true,
       selectedMediaItem: media,
@@ -76,23 +83,27 @@ export default class MediaListPage extends React.Component {
 
       if (media.location !== null) {
         locationMap = (
-          <ReactMapboxGl
-            style="mapbox://styles/mapbox/streets-v8"
-            accessToken={config.MAPBOX_TOKEN}
-            containerStyle={{
-              height: "50vh",
-              width: "640px"
-            }}
-            scrollZoom={false}
-            zoom={[14]}
-            center={[media.location.longitude, media.location.latitude]}>
-              <Layer
-                type="symbol"
-                id="marker"
-                layout={{ "icon-image": "marker-15", "icon-size": 1 }}>
-                <Feature coordinates={[media.location.longitude, media.location.latitude]}/>
-              </Layer>
-          </ReactMapboxGl>
+          <div>
+            <h3>{media.location.name}</h3>
+
+            <ReactMapboxGl
+              style="mapbox://styles/mapbox/streets-v8"
+              accessToken={config.MAPBOX_TOKEN}
+              containerStyle={{
+                height: "50vh",
+                width: "640px"
+              }}
+              scrollZoom={false}
+              zoom={[14]}
+              center={[media.location.longitude, media.location.latitude]}>
+                <Layer
+                  type="symbol"
+                  id="marker"
+                  layout={{ "icon-image": "marker-15", "icon-size": 1 }}>
+                  <Feature coordinates={[media.location.longitude, media.location.latitude]}/>
+                </Layer>
+            </ReactMapboxGl>
+          </div>
         );
       }
 
@@ -115,17 +126,18 @@ export default class MediaListPage extends React.Component {
           {media.type === "image" ?
             <MediaItem
               mediaType={media.type}
-              mediaSrcUrl={media.images.standard_resolution.url} /> :
+              mediaSrcUrl={media.images.standard_resolution.url}
+              width={media.images.standard_resolution.width}
+              height={media.images.standard_resolution.height} /> :
             <MediaItem
               mediaType={media.type}
               mediaSrcUrl={media.videos.standard_resolution.url}
-              videoWidth={media.videos.standard_resolution.width}
-              videoHeight={media.videos.standard_resolution.height}
+              width={media.videos.standard_resolution.width}
+              height={media.videos.standard_resolution.height}
               videoMuted={false} />
           }
 
-          <h3>Location:</h3>
-
+          <h2>{`${media.likes.count} likes`}</h2>
           {locationMap}
         </Dialog>
       );
@@ -139,18 +151,29 @@ export default class MediaListPage extends React.Component {
       }}>
         <GridList
           cols={3}
+          cellHeight={200}
+          padding={1}
           style={{
-            "width": "500px",
+            "width": "480px",
+            "heigth": "480px",
             "overflowY": "auto",
           }}>
             {mediaList.map(media => {
               return (
                 <GridTile
                   key={media.id}
+                  actionIcon={<IconButton onTouchTap={this.handleFavorite.bind(this, media)}><StarBorder color="white" /></IconButton>}
+                  actionPosition="left"
+                  title={`${media.likes.count} likes`}
+                  titleStyle={{
+                    "textAlign": "start",
+                  }}
                   onTouchTap={this.handleOpenDialog.bind(this, media)}>
                   <MediaItem
                     mediaType={media.type}
-                    mediaSrcUrl={media.type === "image" ? media.images.low_resolution.url : media.videos.low_resolution.url} />
+                    mediaSrcUrl={media.type === "image" ? media.images.low_resolution.url : media.videos.low_resolution.url}
+                    width={159}
+                    height={200} />
                 </GridTile>
               );
             })}
