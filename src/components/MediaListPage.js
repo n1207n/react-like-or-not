@@ -47,6 +47,10 @@ export default class MediaListPage extends React.Component {
 
   handleFavorite(media, e) {
     e.stopPropagation();
+
+    if (this.state.mediaDialogIsOpened) {
+      this.handleCloseDialog();
+    }
   }
 
   handleOpenDialog(media, e) {
@@ -70,6 +74,14 @@ export default class MediaListPage extends React.Component {
       <FlatButton
         label="Close"
         primary={true}
+        onTouchTap={this.handleCloseDialog}/>,
+      <FlatButton
+        label="Like"
+        secondary={true}
+        onTouchTap={this.handleCloseDialog}/>,
+      <FlatButton
+        label="Dislike"
+        secondary={true}
         onTouchTap={this.handleCloseDialog}/>,
     ];
 
