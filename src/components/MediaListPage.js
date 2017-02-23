@@ -3,7 +3,9 @@ import React from 'react';
 import Dialog from 'material-ui/Dialog';
 import {GridList, GridTile} from 'material-ui/GridList';
 import FlatButton from 'material-ui/FlatButton';
+import ReactMapboxGl, { Layer, Feature } from "react-mapbox-gl";
 
+import config from 'config';
 import {getRecentMediaUrl} from '../sources/InstagramAPI';
 
 import MediaItem from './MediaItem';
@@ -70,6 +72,29 @@ export default class MediaListPage extends React.Component {
       const media = this.state.selectedMediaItem;
       const date = new Date(parseInt(media.created_time) * 1000);
       const title = media.caption !== null ? `${media.caption.text} on ${date.toLocaleString()}` : `${media.user.full_name} on ${date.toLocaleString()}`;
+      let locationMap = null;
+
+      if (media.location !== null) {
+        locationMap = (
+          <ReactMapboxGl
+            style="mapbox://styles/mapbox/streets-v8"
+            accessToken={config.MAPBOX_TOKEN}
+            containerStyle={{
+              height: "50vh",
+              width: "640px"
+            }}
+            scrollZoom={false}
+            zoom={[14]}
+            center={[media.location.longitude, media.location.latitude]}>
+              <Layer
+                type="symbol"
+                id="marker"
+                layout={{ "icon-image": "marker-15", "icon-size": 1 }}>
+                <Feature coordinates={[media.location.longitude, media.location.latitude]}/>
+              </Layer>
+          </ReactMapboxGl>
+        );
+      }
 
       dialog = (
         <Dialog
@@ -81,11 +106,11 @@ export default class MediaListPage extends React.Component {
           title={title}
           contentStyle={{
             "display": "flex",
-            "flexDirection": "column",
-            "alignItems": "center",
           }}
           bodyStyle={{
             "padding": "16px",
+            "flexDirection": "column",
+            "justifyContent": "center",
           }}>
           {media.type === "image" ?
             <MediaItem
@@ -98,6 +123,10 @@ export default class MediaListPage extends React.Component {
               videoHeight={media.videos.standard_resolution.height}
               videoMuted={false} />
           }
+
+          <h3>Location:</h3>
+
+          {locationMap}
         </Dialog>
       );
     }

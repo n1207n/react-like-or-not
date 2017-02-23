@@ -34,6 +34,7 @@ export default {
       'process.env.NODE_ENV': JSON.stringify('development'), // Tells React to build in either dev or prod modes. https://facebook.github.io/react/downloads.html (See bottom)
       'process.env.INSTAGRAM_CLIENT_ID': JSON.stringify(process.env.INSTAGRAM_CLIENT_ID),
       'process.env.INSTAGRAM_REDIRECT_URL': JSON.stringify(process.env.INSTAGRAM_REDIRECT_URL),
+      'process.env.MAPBOX_TOKEN': JSON.stringify(process.env.MAPBOX_TOKEN),
       __DEV__: true
     }),
     new webpack.HotModuleReplacementPlugin(),
