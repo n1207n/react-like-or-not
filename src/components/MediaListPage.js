@@ -78,7 +78,15 @@ export default class MediaListPage extends React.Component {
           ref={(element) => {this.dialogElement = element;}}
           onRequestClose={this.handleCloseDialog}
           autoScrollBodyContent={true}
-          title={title}>
+          title={title}
+          contentStyle={{
+            "display": "flex",
+            "flexDirection": "column",
+            "alignItems": "center",
+          }}
+          bodyStyle={{
+            "padding": "16px",
+          }}>
           {media.type === "image" ?
             <MediaItem
               mediaType={media.type}
