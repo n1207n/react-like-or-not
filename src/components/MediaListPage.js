@@ -4,6 +4,8 @@ import {GridList, GridTile} from 'material-ui/GridList';
 
 import {getRecentMediaUrl} from '../sources/InstagramAPI';
 
+import MediaItem from './MediaItem';
+
 export default class MediaListPage extends React.Component {
   constructor(props) {
     super(props);
@@ -47,15 +49,7 @@ export default class MediaListPage extends React.Component {
             {mediaList.map(media => {
               return (
                 <GridTile key={media.id}>
-                  {media.type === "image" ?
-                    <img src={media.images.standard_resolution.url} /> :
-                    <video
-                      autoPlay
-                      loop
-                      muted
-                      width={180}
-                      height={180}
-                      src={media.videos.low_resolution.url} />}
+                  <MediaItem mediaType={media.type} mediaSrcUrl={media.type === "image" ? media.images.low_resolution.url : media.videos.low_resolution.url} />
                 </GridTile>
               );
             })}
