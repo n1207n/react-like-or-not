@@ -8,6 +8,10 @@ const defaultProps = {
   videoMuted: true,
 };
 
+const styles = {
+  cursor: 'pointer',
+};
+
 /**
  * MediaItem React component
  *
@@ -17,7 +21,7 @@ const defaultProps = {
  */
 const MediaItem = ({mediaType, mediaSrcUrl, ...props}) => {
  return (
-   <div>
+   <div style={styles}>
      {mediaType === "image" ?
        <img src={mediaSrcUrl} /> :
        <video

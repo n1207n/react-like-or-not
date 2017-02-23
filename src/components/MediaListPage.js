@@ -1,6 +1,8 @@
 import React from 'react';
 
+import Dialog from 'material-ui/Dialog';
 import {GridList, GridTile} from 'material-ui/GridList';
+import FlatButton from 'material-ui/FlatButton';
 
 import {getRecentMediaUrl} from '../sources/InstagramAPI';
 
@@ -10,8 +12,15 @@ export default class MediaListPage extends React.Component {
   constructor(props) {
     super(props);
 
+    this.state = {
+      mediaDialogIsOpened: false,
+      selectedMediaItem: null,
+    };
+
     this.checkAuthentication = this.checkAuthentication.bind(this);
     this.fetchMediaData = this.fetchMediaData.bind(this);
+    this.handleOpenDialog = this.handleOpenDialog.bind(this);
+    this.handleCloseDialog = this.handleCloseDialog.bind(this);
   }
 
   componentDidMount() {
@@ -31,8 +40,45 @@ export default class MediaListPage extends React.Component {
     this.props.fetchImageList(getRecentMediaUrl, this.props.accessHash);
   }
 
+  handleOpenDialog(media) {
+    this.setState({
+      mediaDialogIsOpened: true,
+      selectedMediaItem: media,
+    });
+  }
+
+  handleCloseDialog() {
+    this.setState({
+      mediaDialogIsOpened: false,
+    });
+  }
+
   render() {
     const {mediaList} = this.props;
+
+    const dialogActions = [
+      <FlatButton
+        label="Close"
+        primary={true}
+        onTouchTap={this.handleCloseDialog}/>,
+    ];
+
+    let dialog = null;
+
+    if (this.state.selectedMediaItem !== null) {
+      dialog = (
+        <Dialog
+          open={this.state.mediaDialogIsOpened}
+          actions={dialogActions}
+          ref={(element) => {this.dialogElement = element;}}
+          onRequestClose={this.handleCloseDialog}
+          autoScrollBodyContent={true}>
+          <MediaItem
+            mediaType={this.state.selectedMediaItem.type}
+            mediaSrcUrl={this.state.selectedMediaItem.type === "image" ? this.state.selectedMediaItem.images.standard_resolution.url : this.state.selectedMediaItem.videos.standard_resolution.url} />
+        </Dialog>
+      );
+    }
 
     return (
       <div className="flex-container flex-center" style={{
@@ -48,12 +94,18 @@ export default class MediaListPage extends React.Component {
           }}>
             {mediaList.map(media => {
               return (
-                <GridTile key={media.id}>
-                  <MediaItem mediaType={media.type} mediaSrcUrl={media.type === "image" ? media.images.low_resolution.url : media.videos.low_resolution.url} />
+                <GridTile
+                  key={media.id}
+                  onTouchTap={this.handleOpenDialog.bind(this, media)}>
+                  <MediaItem
+                    mediaType={media.type}
+                    mediaSrcUrl={media.type === "image" ? media.images.low_resolution.url : media.videos.low_resolution.url} />
                 </GridTile>
               );
             })}
         </GridList>
+
+        {dialog}
       </div>
     );
   }
