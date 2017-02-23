@@ -50,6 +50,7 @@ export default class MediaListPage extends React.Component {
   handleCloseDialog() {
     this.setState({
       mediaDialogIsOpened: false,
+      selectedMediaItem: null,
     });
   }
 
@@ -66,16 +67,29 @@ export default class MediaListPage extends React.Component {
     let dialog = null;
 
     if (this.state.selectedMediaItem !== null) {
+      const media = this.state.selectedMediaItem;
+      const date = new Date(parseInt(media.created_time) * 1000);
+      const title = media.caption !== null ? `${media.caption.text} on ${date.toLocaleString()}` : `${media.user.full_name} on ${date.toLocaleString()}`;
+
       dialog = (
         <Dialog
           open={this.state.mediaDialogIsOpened}
           actions={dialogActions}
           ref={(element) => {this.dialogElement = element;}}
           onRequestClose={this.handleCloseDialog}
-          autoScrollBodyContent={true}>
-          <MediaItem
-            mediaType={this.state.selectedMediaItem.type}
-            mediaSrcUrl={this.state.selectedMediaItem.type === "image" ? this.state.selectedMediaItem.images.standard_resolution.url : this.state.selectedMediaItem.videos.standard_resolution.url} />
+          autoScrollBodyContent={true}
+          title={title}>
+          {media.type === "image" ?
+            <MediaItem
+              mediaType={media.type}
+              mediaSrcUrl={media.images.standard_resolution.url} /> :
+            <MediaItem
+              mediaType={media.type}
+              mediaSrcUrl={media.videos.standard_resolution.url}
+              videoWidth={media.videos.standard_resolution.width}
+              videoHeight={media.videos.standard_resolution.height}
+              videoMuted={false} />
+          }
         </Dialog>
       );
     }
