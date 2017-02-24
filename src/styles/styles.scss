@@ -21,6 +21,11 @@ body {
   margin-top: 60px;
 }
 
+.profile-container {
+  @extend .flex-container;
+  @extend .flex-center;
+}
+
 video {
   object-fit: fill;
 }

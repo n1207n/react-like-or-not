@@ -53,7 +53,7 @@ export default class MediaListPage extends React.Component {
     }
   }
 
-  handleOpenDialog(media, e) {
+  handleOpenDialog(media) {
     this.setState({
       mediaDialogIsOpened: true,
       selectedMediaItem: media,

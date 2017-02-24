@@ -7,7 +7,12 @@
 
 import type {InstagramMediaType} from '../sources/InstagramMediaType';
 
-import {REQUEST_IMAGE_LIST, LOAD_IMAGE_LIST, LOAD_IMAGE_LIST_ERROR, SAVE_AUTH_DATA} from '../actions/const';
+import {
+  REQUEST_IMAGE_LIST,
+  LOAD_IMAGE_LIST,
+  LOAD_IMAGE_LIST_ERROR,
+  SAVE_AUTH_DATA,
+} from '../actions/const';
 
 type APIReducerStateType = {isAuthenticated: boolean, data: Array<InstagramMediaType>, loading: boolean, error: boolean, errorResponse: Object};
 
