@@ -3,7 +3,6 @@ import React from 'react';
 import Dialog from 'material-ui/Dialog';
 import {GridList, GridTile} from 'material-ui/GridList';
 import FontIcon from 'material-ui/FontIcon';
-import FlatButton from 'material-ui/FlatButton';
 import IconButton from 'material-ui/IconButton';
 import Star from 'material-ui/svg-icons/toggle/star';
 import ListIcon from 'material-ui/svg-icons/action/list';
@@ -16,7 +15,7 @@ import {getRecentMediaUrl} from '../sources/InstagramAPI';
 
 import MediaItem from './MediaItem';
 
-export default class MediaListPage extends React.Component {
+export default class MediaListPage extends React.PureComponent {
   constructor(props) {
     super(props);
 
@@ -25,7 +24,6 @@ export default class MediaListPage extends React.Component {
       favoriteSnackbarIsOpened: false,
       selectedMediaItem: null,
       displayFilterIndex: 0,
-      displayMediaList: [],
     };
 
     this.checkAuthentication = this.checkAuthentication.bind(this);
@@ -100,17 +98,8 @@ export default class MediaListPage extends React.Component {
   }
 
   changeDisplayFilter(index) {
-    let newDisplayMediaList;
-
-    if (index === 1) {
-      newDisplayMediaList = this.props.mediaList.filter(item => item.favorite === true);
-    } else {
-      newDisplayMediaList = this.props.mediaList;
-    }
-
     this.setState({
       displayFilterIndex: index,
-      displayMediaList: newDisplayMediaList,
     });
   }
 
@@ -216,6 +205,31 @@ export default class MediaListPage extends React.Component {
      * Bottom navigation component rendering ends
      */
 
+     const mediaGridTileRenderer = (media, index) => {
+       return (
+         <GridTile
+           key={media.id}
+           actionIcon={(
+             <IconButton
+               onTouchTap={this.handleFavorite.bind(this, index)}>
+                 <Star color="white" />
+             </IconButton>
+           )}
+           actionPosition="left"
+           title={`${media.likes.count} likes`}
+           titleStyle={{
+             "textAlign": "start",
+           }}
+           onTouchTap={this.handleOpenDialog.bind(this, media)}>
+           <MediaItem
+             mediaType={media.type}
+             mediaSrcUrl={media.type === "image" ? media.images.low_resolution.url : media.videos.low_resolution.url}
+             width={159}
+             height={200} />
+         </GridTile>
+       );
+     };
+
     /**
      * Main component rendering begins
      */
@@ -234,30 +248,7 @@ export default class MediaListPage extends React.Component {
             "heigth": "480px",
             "overflowY": "auto",
           }}>
-            {this.props.mediaList.map((media, index) => {
-              return (
-                <GridTile
-                  key={media.id}
-                  actionIcon={(
-                    <IconButton
-                      onTouchTap={this.handleFavorite.bind(this, index)}>
-                        <Star color="white" />
-                    </IconButton>
-                  )}
-                  actionPosition="left"
-                  title={`${media.likes.count} likes`}
-                  titleStyle={{
-                    "textAlign": "start",
-                  }}
-                  onTouchTap={this.handleOpenDialog.bind(this, media)}>
-                  <MediaItem
-                    mediaType={media.type}
-                    mediaSrcUrl={media.type === "image" ? media.images.low_resolution.url : media.videos.low_resolution.url}
-                    width={159}
-                    height={200} />
-                </GridTile>
-              );
-            })}
+            {this.state.displayFilterIndex === 0 ? this.props.mediaList.map(mediaGridTileRenderer) : this.props.mediaList.filter(item => item.favorite === true).map(mediaGridTileRenderer)}
         </GridList>
 
         {bottomNavigation}
