@@ -12,9 +12,11 @@ import {
   LOAD_IMAGE_LIST,
   LOAD_IMAGE_LIST_ERROR,
   SAVE_AUTH_DATA,
+  PUSH_MEDIA_TO_FAVORITES,
 } from '../actions/const';
 
-type APIReducerStateType = {token: string, data: Array<InstagramMediaType>, loading: boolean, error: boolean, errorResponse: Object};
+type APIReducerStateType = {token: string, data: Array<InstagramMediaType>,
+  favoredData: Array<InstagramMediaType>, loading: boolean, error: boolean, errorResponse: Object};
 
 const initialState: APIReducerStateType = {
   token: '',
@@ -51,6 +53,15 @@ export default function reducer(state: APIReducerStateType = initialState, actio
     case SAVE_AUTH_DATA: {
       return Object.assign({}, state, {
         token: action.token,
+      });
+    }
+
+    case PUSH_MEDIA_TO_FAVORITES: {
+      return Object.assign({}, state, {
+        favoredData: [
+          ...state.favoredData,
+          action.media,
+        ]
       });
     }
 
