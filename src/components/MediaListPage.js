@@ -57,9 +57,13 @@ export default class MediaListPage extends React.PureComponent {
   }
 
   checkAuthentication() {
-    this.props.saveAuthData(this.props.accessHash);
+    if (this.props.accessHash !== '' || this.props.token !== '') {
+      if (this.props.accessHash !== '') {
+        this.props.saveAuthData(this.props.accessHash);
+      }
 
-    if (this.props.token === '') {
+      window.location.hash = '';
+    } else {
       this.context.router.push('/');
     }
   }

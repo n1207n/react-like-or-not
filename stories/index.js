@@ -10,7 +10,11 @@ import MediaItem from '../src/components/MediaItem';
 
 storiesOf('InstagramSignIn', module)
   .addWithInfo('default', () => (
-    <InstagramSignIn oAuthUrl={""} />
+    <WithNotes notes={`A sign in button using Instagram credentials.
+
+      It opens the Instagram oAuth url with client id and redirect url.`}>
+      <InstagramSignIn oAuthUrl={""} />
+    </WithNotes>
   ), { source: true, inline: true });
 
 const MediaItemStories = storiesOf('MediaItem', module);
@@ -23,7 +27,7 @@ MediaItemStories.addWithInfo('image type', () => (
     height={150} />
 ), { source: true, inline: true });
 
-MediaItemStories.add('image type', () => {
+MediaItemStories.addWithInfo('image type', () => {
   const width = number('Width', 350);
   const height = number('Height', 150);
 
@@ -36,9 +40,9 @@ MediaItemStories.add('image type', () => {
         height={height}/>
     </WithNotes>
   )
-});
+}, { source: true, inline: true });
 
-MediaItemStories.add('video type', () => {
+MediaItemStories.addWithInfo('video type', () => {
   const width = number('Width', 350);
   const height = number('Height', 150);
   const videoAutoPlay = boolean('AutoPlay', true);
@@ -57,4 +61,4 @@ MediaItemStories.add('video type', () => {
         videoMuted={videoMuted}/>
     </WithNotes>
   )
-});
+}, { source: true, inline: true });
