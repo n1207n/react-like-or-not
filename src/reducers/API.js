@@ -66,7 +66,7 @@ export default function reducer(state: APIReducerStateType = initialState, actio
       return Object.assign({}, state, {
         data: state.data.map((item, index) => {
           if (index === action.index) {
-            item.favorite = true;
+            return Object.assign({}, item, {favorite: true});
           }
 
           return item;

@@ -6,6 +6,7 @@ import FontIcon from 'material-ui/FontIcon';
 import FlatButton from 'material-ui/FlatButton';
 import IconButton from 'material-ui/IconButton';
 import Star from 'material-ui/svg-icons/toggle/star';
+import Snackbar from 'material-ui/Snackbar';
 import ReactMapboxGl, { Layer, Feature } from "react-mapbox-gl";
 
 import config from 'config';
@@ -19,6 +20,7 @@ export default class MediaListPage extends React.Component {
 
     this.state = {
       mediaDialogIsOpened: false,
+      favoriteSnackbarIsOpened: false,
       selectedMediaItem: null,
     };
 
@@ -27,6 +29,8 @@ export default class MediaListPage extends React.Component {
     this.handleOpenDialog = this.handleOpenDialog.bind(this);
     this.handleCloseDialog = this.handleCloseDialog.bind(this);
     this.handleFavorite = this.handleFavorite.bind(this);
+    this.handleCloseFavoriteSnackbar = this.handleCloseFavoriteSnackbar.bind(this);
+    this.handleOpenFavoriteSnackbar = this.handleOpenFavoriteSnackbar.bind(this);
   }
 
   componentDidMount() {
@@ -54,6 +58,8 @@ export default class MediaListPage extends React.Component {
     if (this.state.mediaDialogIsOpened) {
       this.handleCloseDialog();
     }
+
+    this.handleOpenFavoriteSnackbar();
   }
 
   handleOpenDialog(media) {
@@ -67,6 +73,18 @@ export default class MediaListPage extends React.Component {
     this.setState({
       mediaDialogIsOpened: false,
       selectedMediaItem: null,
+    });
+  }
+
+  handleOpenFavoriteSnackbar() {
+    this.setState({
+      favoriteSnackbarIsOpened: true,
+    });
+  }
+
+  handleCloseFavoriteSnackbar() {
+    this.setState({
+      favoriteSnackbarIsOpened: false,
     });
   }
 
@@ -199,6 +217,12 @@ export default class MediaListPage extends React.Component {
         </GridList>
 
         {dialog}
+
+        <Snackbar
+          open={this.state.favoriteSnackbarIsOpened}
+          message={"Marked as favorite"}
+          autoHideDuration={3000}
+          onRequestClose={this.handleCloseFavoriteSnackbar}/>
       </div>
     );
   }
