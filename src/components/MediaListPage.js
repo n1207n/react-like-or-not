@@ -37,7 +37,7 @@ export default class MediaListPage extends React.Component {
   checkAuthentication() {
     this.props.saveAuthData(this.props.accessHash);
 
-    if (!this.props.isAuthenticated) {
+    if (this.props.token === '') {
       this.context.router.push('/');
     }
   }
@@ -73,12 +73,8 @@ export default class MediaListPage extends React.Component {
 
     const dialogActions = [
       <FlatButton
-        label="Close"
-        primary={true}
-        onTouchTap={this.handleCloseDialog}/>,
-      <FlatButton
         label="Like"
-        secondary={true}
+        primary={true}
         onTouchTap={this.handleCloseDialog}/>,
       <FlatButton
         label="Dislike"
@@ -203,7 +199,7 @@ export default class MediaListPage extends React.Component {
 
 MediaListPage.propTypes = {
   saveAuthData: React.PropTypes.func.isRequired,
-  isAuthenticated: React.PropTypes.bool.isRequired,
+  token: React.PropTypes.string.isRequired,
   mediaList: React.PropTypes.array.isRequired,
   fetchImageList: React.PropTypes.func.isRequired,
   accessHash: React.PropTypes.string.isRequired,

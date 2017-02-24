@@ -20,9 +20,8 @@ class HomePage extends React.Component {
   }
 
   checkAuthentication() {
-    if (store.getState().API.isAuthenticated) {
-      const accessToken = localStorage.getItem('token');
-      this.context.router.push(`/list/#access_token=${accessToken}`);
+    if (store.getState().API.token !== '') {
+      this.context.router.push(`/list/#access_token=${store.getState().API.token}`);
     }
   }
 

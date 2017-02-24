@@ -8,7 +8,7 @@ import MediaListPage from '../components/MediaListPage';
 const mapStateToProps = (state, ownProps) => {
   return {
     accessHash: ownProps.location.hash.split('access_token=')[1] || '',
-    isAuthenticated: state.API.isAuthenticated,
+    token: state.API.token,
     mediaList: state.API.data,
   };
 };

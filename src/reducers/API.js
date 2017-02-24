@@ -14,11 +14,12 @@ import {
   SAVE_AUTH_DATA,
 } from '../actions/const';
 
-type APIReducerStateType = {isAuthenticated: boolean, data: Array<InstagramMediaType>, loading: boolean, error: boolean, errorResponse: Object};
+type APIReducerStateType = {token: string, data: Array<InstagramMediaType>, loading: boolean, error: boolean, errorResponse: Object};
 
 const initialState: APIReducerStateType = {
-  isAuthenticated: localStorage.getItem('token') ? true : false,
+  token: '',
   data: [],
+  favoredData: [],
   loading: false,
   error: false,
   errorResponse: {},
@@ -48,12 +49,8 @@ export default function reducer(state: APIReducerStateType = initialState, actio
     }
 
     case SAVE_AUTH_DATA: {
-      localStorage.setItem('token', action.token);
-
-      const isAuthenticated = action.token ? true : false;
-
       return Object.assign({}, state, {
-        isAuthenticated,
+        token: action.token,
       });
     }
 

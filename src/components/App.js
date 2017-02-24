@@ -9,7 +9,7 @@ import HomeSVGIcon from 'material-ui/svg-icons/action/home';
 import ListSVGIcon from 'material-ui/svg-icons/action/list';
 
 const defaultProps = {
-  isAuthenticated: false,
+  token: '',
   profileData: null,
 };
 
@@ -34,7 +34,7 @@ class App extends React.Component {
   }
 
   render() {
-    const {children, isAuthenticated, profileData} = this.props;
+    const {children, token, profileData} = this.props;
 
     return (
       <div className="container">
@@ -61,21 +61,22 @@ class App extends React.Component {
             </div>
           ) : null }
 
-          <MenuItem
-            primaryText="Login page"
-            leftIcon={<HomeSVGIcon />}
-            onTouchTap={() => this.context.router.push('/')}/>
+          {this.props.token === '' ? (
+            <MenuItem
+              primaryText="Login page"
+              leftIcon={<HomeSVGIcon />}
+              onTouchTap={() => this.context.router.push('/')}/>
+            ) : null}
           <MenuItem
             primaryText="About"
             leftIcon={<InfoSVGIcon />}
             onTouchTap={() => this.context.router.push('/about')}/>
-          <MenuItem
-            primaryText="Media List"
-            leftIcon={<ListSVGIcon />}
-            onTouchTap={() => {
-              const accessToken = localStorage.getItem('token');
-              this.context.router.push(`/list/#access_token=${accessToken}`);
-            }}/>
+          {this.props.token !== '' ? (
+            <MenuItem
+              primaryText="Media List"
+              leftIcon={<ListSVGIcon />}
+              onTouchTap={() => { this.context.router.push(`/list/#access_token=${token}`); }}/>
+            ) : null}
         </Drawer>
 
         <div className="content-container">
@@ -88,7 +89,7 @@ class App extends React.Component {
 
 App.propTypes = {
   children: PropTypes.element,
-  isAuthenticated: PropTypes.bool.isRequired,
+  token: PropTypes.string.isRequired,
   profileData: PropTypes.object,
 };
 
