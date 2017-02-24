@@ -2,6 +2,7 @@ import React from 'react';
 
 import Dialog from 'material-ui/Dialog';
 import {GridList, GridTile} from 'material-ui/GridList';
+import FontIcon from 'material-ui/FontIcon';
 import FlatButton from 'material-ui/FlatButton';
 import IconButton from 'material-ui/IconButton';
 import StarBorder from 'material-ui/svg-icons/toggle/star-border';
@@ -103,7 +104,7 @@ export default class MediaListPage extends React.Component {
               accessToken={config.MAPBOX_TOKEN}
               containerStyle={{
                 height: "50vh",
-                width: "640px"
+                width: "480px"
               }}
               scrollZoom={false}
               zoom={[14]}
@@ -128,28 +129,30 @@ export default class MediaListPage extends React.Component {
           autoScrollBodyContent={true}
           title={title}
           contentStyle={{
-            "display": "flex",
+            "width": '540px',
+            "maxWidth": '768px',
           }}
           bodyStyle={{
             "padding": "16px",
+            "display": "flex",
             "flexDirection": "column",
-            "justifyContent": "center",
+            "alignItems": "center",
           }}>
           {media.type === "image" ?
             <MediaItem
               mediaType={media.type}
               mediaSrcUrl={media.images.standard_resolution.url}
-              width={media.images.standard_resolution.width}
-              height={media.images.standard_resolution.height} /> :
+              width={480}
+              height={270} /> :
             <MediaItem
               mediaType={media.type}
               mediaSrcUrl={media.videos.standard_resolution.url}
-              width={media.videos.standard_resolution.width}
-              height={media.videos.standard_resolution.height}
+              width={480}
+              height={270}
               videoMuted={false} />
           }
 
-          <h2>{`${media.likes.count} likes`}</h2>
+          <h2>{`${media.likes.count} likes`} <FontIcon className="fa fa fa-heart" style={{marginLeft: "4"}} /></h2>
           {locationMap}
         </Dialog>
       );
