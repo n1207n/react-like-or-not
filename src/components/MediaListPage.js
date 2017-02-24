@@ -153,6 +153,7 @@ export default class MediaListPage extends React.Component {
           }
 
           <h2>{`${media.likes.count} likes`} <FontIcon className="fa fa fa-heart" style={{marginLeft: "4"}} /></h2>
+          <p>{`Taken with ${media.filter} filter ;)`}</p>
           {locationMap}
         </Dialog>
       );
