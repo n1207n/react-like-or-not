@@ -15,6 +15,15 @@ import {getRecentMediaUrl} from '../sources/InstagramAPI';
 
 import MediaItem from './MediaItem';
 
+const defaultProps = {
+  token: '',
+  accessHash: '',
+  mediaList: [],
+  saveAuthData() {},
+  fetchImageList() {},
+  pushMediaToFavorites() {},
+};
+
 export default class MediaListPage extends React.PureComponent {
   constructor(props) {
     super(props);
@@ -265,13 +274,15 @@ export default class MediaListPage extends React.PureComponent {
 }
 
 MediaListPage.propTypes = {
-  saveAuthData: React.PropTypes.func.isRequired,
+  accessHash: React.PropTypes.string.isRequired,
   token: React.PropTypes.string.isRequired,
   mediaList: React.PropTypes.array.isRequired,
+  saveAuthData: React.PropTypes.func.isRequired,
   fetchImageList: React.PropTypes.func.isRequired,
   pushMediaToFavorites: React.PropTypes.func.isRequired,
-  accessHash: React.PropTypes.string.isRequired,
 };
+
+MediaListPage.defaultProps = defaultProps;
 
 MediaListPage.contextTypes = {
   router: React.PropTypes.object.isRequired,
