@@ -15,13 +15,17 @@ import {
   PUSH_MEDIA_TO_FAVORITES,
 } from '../actions/const';
 
-type APIReducerStateType = {token: string, data: Array<InstagramMediaType>,
-  favoredData: Array<InstagramMediaType>, loading: boolean, error: boolean, errorResponse: Object};
+type APIReducerStateType = {
+  token: string,
+  data: Array<InstagramMediaType>,
+  loading: boolean,
+  error: boolean,
+  errorResponse: Object
+};
 
 const initialState: APIReducerStateType = {
   token: '',
   data: [],
-  favoredData: [],
   loading: false,
   error: false,
   errorResponse: {},
@@ -47,7 +51,9 @@ export default function reducer(state: APIReducerStateType = initialState, actio
     }
 
     case LOAD_IMAGE_LIST: {
-      return Object.assign({}, state, {isLoading: false, error: false, data: action.data});
+      const data = action.data.map(item => Object.assign({}, item, {favorite: false}));
+
+      return Object.assign({}, state, {isLoading: false, error: false, data});
     }
 
     case SAVE_AUTH_DATA: {
@@ -58,10 +64,13 @@ export default function reducer(state: APIReducerStateType = initialState, actio
 
     case PUSH_MEDIA_TO_FAVORITES: {
       return Object.assign({}, state, {
-        favoredData: [
-          ...state.favoredData,
-          action.media,
-        ]
+        data: state.data.map((item, index) => {
+          if (index === action.index) {
+            item.favorite = true;
+          }
+
+          return item;
+        })
       });
     }
 

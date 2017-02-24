@@ -1,6 +1,7 @@
 // @flow
 
 export type InstagramMediaType = {
+  favorite?: boolean,
   videos?: {
     low_bandwidth: {
       width: number,

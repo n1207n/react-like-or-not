@@ -5,7 +5,7 @@ import {GridList, GridTile} from 'material-ui/GridList';
 import FontIcon from 'material-ui/FontIcon';
 import FlatButton from 'material-ui/FlatButton';
 import IconButton from 'material-ui/IconButton';
-import StarBorder from 'material-ui/svg-icons/toggle/star-border';
+import Star from 'material-ui/svg-icons/toggle/star';
 import ReactMapboxGl, { Layer, Feature } from "react-mapbox-gl";
 
 import config from 'config';
@@ -46,8 +46,10 @@ export default class MediaListPage extends React.Component {
     this.props.fetchImageList(getRecentMediaUrl, this.props.accessHash);
   }
 
-  handleFavorite(media, e) {
+  handleFavorite(index, e) {
     e.stopPropagation();
+
+    this.props.pushMediaToFavorites(index);
 
     if (this.state.mediaDialogIsOpened) {
       this.handleCloseDialog();
@@ -170,11 +172,16 @@ export default class MediaListPage extends React.Component {
             "heigth": "480px",
             "overflowY": "auto",
           }}>
-            {mediaList.map(media => {
+            {mediaList.map((media, index) => {
               return (
                 <GridTile
                   key={media.id}
-                  actionIcon={<IconButton onTouchTap={this.handleFavorite.bind(this, media)}><StarBorder color="white" /></IconButton>}
+                  actionIcon={(
+                    <IconButton
+                      onTouchTap={this.handleFavorite.bind(this, index)}>
+                        <Star color="white" />
+                    </IconButton>
+                  )}
                   actionPosition="left"
                   title={`${media.likes.count} likes`}
                   titleStyle={{
@@ -202,6 +209,7 @@ MediaListPage.propTypes = {
   token: React.PropTypes.string.isRequired,
   mediaList: React.PropTypes.array.isRequired,
   fetchImageList: React.PropTypes.func.isRequired,
+  pushMediaToFavorites: React.PropTypes.func.isRequired,
   accessHash: React.PropTypes.string.isRequired,
 };
 

@@ -1,7 +1,7 @@
 import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
 
-import {saveAuthData, fetchImageList} from '../actions';
+import {saveAuthData, fetchImageList, pushMediaToFavorites} from '../actions';
 
 import MediaListPage from '../components/MediaListPage';
 
@@ -14,7 +14,7 @@ const mapStateToProps = (state, ownProps) => {
 };
 
 const mapDispatchToProps = (dispatch) => {
-  return bindActionCreators({saveAuthData, fetchImageList}, dispatch);
+  return bindActionCreators({saveAuthData, fetchImageList, pushMediaToFavorites}, dispatch);
 };
 
 export default connect(
