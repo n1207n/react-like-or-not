@@ -6,7 +6,9 @@ import FontIcon from 'material-ui/FontIcon';
 import FlatButton from 'material-ui/FlatButton';
 import IconButton from 'material-ui/IconButton';
 import Star from 'material-ui/svg-icons/toggle/star';
+import ListIcon from 'material-ui/svg-icons/action/list';
 import Snackbar from 'material-ui/Snackbar';
+import {BottomNavigation, BottomNavigationItem} from 'material-ui/BottomNavigation';
 import ReactMapboxGl, { Layer, Feature } from "react-mapbox-gl";
 
 import config from 'config';
@@ -22,6 +24,8 @@ export default class MediaListPage extends React.Component {
       mediaDialogIsOpened: false,
       favoriteSnackbarIsOpened: false,
       selectedMediaItem: null,
+      displayFilterIndex: 0,
+      displayMediaList: [],
     };
 
     this.checkAuthentication = this.checkAuthentication.bind(this);
@@ -31,11 +35,18 @@ export default class MediaListPage extends React.Component {
     this.handleFavorite = this.handleFavorite.bind(this);
     this.handleCloseFavoriteSnackbar = this.handleCloseFavoriteSnackbar.bind(this);
     this.handleOpenFavoriteSnackbar = this.handleOpenFavoriteSnackbar.bind(this);
+    this.changeDisplayFilter = this.changeDisplayFilter.bind(this);
   }
 
   componentDidMount() {
     this.checkAuthentication();
     this.fetchMediaData();
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.mediaList.length !== 0) {
+      this.changeDisplayFilter(this.state.displayFilterIndex);
+    }
   }
 
   checkAuthentication() {
@@ -88,20 +99,27 @@ export default class MediaListPage extends React.Component {
     });
   }
 
+  changeDisplayFilter(index) {
+    let newDisplayMediaList;
+
+    if (index === 1) {
+      newDisplayMediaList = this.props.mediaList.filter(item => item.favorite === true);
+    } else {
+      newDisplayMediaList = this.props.mediaList;
+    }
+
+    this.setState({
+      displayFilterIndex: index,
+      displayMediaList: newDisplayMediaList,
+    });
+  }
+
   render() {
-    const {mediaList} = this.props;
+    const {displayMediaList} = this.state;
 
-    const dialogActions = [
-      <FlatButton
-        label="Like"
-        primary={true}
-        onTouchTap={this.handleCloseDialog}/>,
-      <FlatButton
-        label="Dislike"
-        secondary={true}
-        onTouchTap={this.handleCloseDialog}/>,
-    ];
-
+    /**
+     * Dialog component rendering begins
+     */
     let dialog = null;
 
     if (this.state.selectedMediaItem !== null) {
@@ -139,7 +157,6 @@ export default class MediaListPage extends React.Component {
       dialog = (
         <Dialog
           open={this.state.mediaDialogIsOpened}
-          actions={dialogActions}
           ref={(element) => {this.dialogElement = element;}}
           onRequestClose={this.handleCloseDialog}
           autoScrollBodyContent={true}
@@ -174,7 +191,34 @@ export default class MediaListPage extends React.Component {
         </Dialog>
       );
     }
+    /**
+     * Dialog component rendering ends
+     */
 
+    /**
+     * Bottom navigation component rendering begins
+     */
+    const bottomNavigation = (
+      <BottomNavigation
+        selectedIndex={this.state.displayFilterIndex}>
+        <BottomNavigationItem
+          label="All"
+          icon={<ListIcon />}
+          onTouchTap={() => this.changeDisplayFilter(0)}/>
+
+          <BottomNavigationItem
+            label="Favorites"
+            icon={<Star />}
+            onTouchTap={() => this.changeDisplayFilter(1)}/>
+      </BottomNavigation>
+    );
+    /**
+     * Bottom navigation component rendering ends
+     */
+
+    /**
+     * Main component rendering begins
+     */
     return (
       <div className="flex-container flex-center" style={{
         "margin": "12px",
@@ -190,7 +234,7 @@ export default class MediaListPage extends React.Component {
             "heigth": "480px",
             "overflowY": "auto",
           }}>
-            {mediaList.map((media, index) => {
+            {this.props.mediaList.map((media, index) => {
               return (
                 <GridTile
                   key={media.id}
@@ -216,6 +260,7 @@ export default class MediaListPage extends React.Component {
             })}
         </GridList>
 
+        {bottomNavigation}
         {dialog}
 
         <Snackbar
